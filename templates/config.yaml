@@ -1,0 +1,63 @@
+# Hermes Agent Configuration
+# Copy to ~/.hermes/config.yaml and customize
+
+model:
+  default: glm-5-turbo
+  # Replace with your preferred model:
+  # - glm-5-turbo (Z.AI / GLM)
+  # - claude-sonnet-4 (Anthropic)
+  # - openai/gpt-4o (OpenAI via OpenRouter)
+
+toolsets:
+  - hermes-cli
+
+agent:
+  max_turns: 90
+  gateway_timeout: 1800
+
+terminal:
+  backend: local
+  cwd: ~/system/second-brain   # IMPORTANT: Set to your vault path
+  timeout: 180
+  persistent_shell: true
+
+browser:
+  inactivity_timeout: 120
+  command_timeout: 30
+
+discord:
+  require_mention: true
+  auto_thread: true
+  reactions: true
+
+memory:
+  memory_enabled: true
+  user_profile_enabled: true
+  memory_char_limit: 2200
+  user_char_limit: 1375
+
+# MCP Servers
+mcp_servers:
+  playwright:
+    command: npx
+    args:
+      - -y
+      - '@playwright/mcp'
+      - --headless
+    timeout: 120
+
+# Optional: Custom providers
+# custom_providers:
+#   - name: openrouter
+#     base_url: https://openrouter.ai/api/v1
+#     api_key: ${OPENROUTER_API_KEY}
+#     models:
+#       - name: claude-sonnet-4
+#         provider_id: openrouter
+
+# Platform connections (set tokens via environment variables)
+# DISCORD_BOT_TOKEN=...
+# TELEGRAM_BOT_TOKEN=...
+platforms:
+  discord:
+    enabled: true
