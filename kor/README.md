@@ -79,11 +79,6 @@ git clone https://github.com/Burgunthy/hermes-second-brain.git ~/system
 
 ### 2. Obsidian Vault 설정
 
-```bash
-# .hermes.md 이름 변경 (숨김파일)
-mv ~/system/second-brain/hermes-project-context.md ~/system/second-brain/.hermes.md
-```
-
 Obsidian에서 "Open folder as vault" → `~/system/second-brain/` 선택.
 
 ### 3. Graphify (지식 그래프)
