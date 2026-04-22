@@ -149,6 +149,44 @@ chmod +x ~/system/second-brain/scripts/inbox-watcher/sort-all.sh
 
 ## Ingest Pipeline
 
+### Install the Ingest Script
+
+```bash
+# Create the ingest script
+cat > ~/system/second-brain/scripts/hermes-ingest.sh << 'SCRIPT'
+#!/bin/bash
+HERMES="$HOME/system/.venv/bin/hermes"
+PROJECT_ROOT="$HOME/system/second-brain"
+LOG_DIR="$PROJECT_ROOT/scripts/logs"
+mkdir -p "$LOG_DIR"
+
+log() {
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*" | tee -a "$LOG_DIR/ingest.log"
+}
+
+ingest_file() {
+    local file="$1"
+    log "Ingesting: $(basename "$file")"
+    $HERMES chat -q "Ingest the file at $file into wiki/ following the .hermes.md instructions."
+}
+
+case "${1:-}" in
+    --all)
+        find "$PROJECT_ROOT/raw" -name "*.md" -type f | while read -r file; do
+            ingest_file "$file"
+        done
+        ;;
+    --file|-f)
+        ingest_file "$2"
+        ;;
+    *)
+        echo "Usage: $0 --all | --file <path>"
+        ;;
+esac
+SCRIPT
+chmod +x ~/system/second-brain/scripts/hermes-ingest.sh
+```
+
 ### Manual Ingest
 
 ```bash

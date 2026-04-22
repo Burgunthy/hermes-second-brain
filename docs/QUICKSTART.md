@@ -8,6 +8,7 @@
 
 You'll need:
 - **Python 3.10+** — check with `python3 --version`
+- **python3-venv** — on Ubuntu/Debian: `sudo apt install python3-venv`
 - **Git** — check with `git --version`
 - **An LLM API key** — Anthropic, OpenAI, or any OpenAI-compatible provider
 
@@ -149,7 +150,7 @@ hermes --version
 mkdir -p ~/.hermes
 
 # Create symlink inside ~/system/ for easy access
-ln -s ~/.hermes ~/system/hermes
+ln -sf ~/.hermes ~/system/hermes
 
 # Create config.yaml
 cat > ~/.hermes/config.yaml << 'EOF'

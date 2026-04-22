@@ -13,8 +13,8 @@ An always-on AI knowledge management system combining:
 
 ```bash
 # 1. Create knowledge base
-mkdir -p ~/system/second-brain/{raw/{inbox,articles,papers,notes},wiki/{concepts,entities,sources,synthesis}}
-cd ~/system/second-brain && git init
+mkdir -p ~/system/second-brain/{raw/{inbox,articles,papers,notes,meetings,videos,code,research,stock},wiki/{concepts,entities/{persons,companies,tools},sources,synthesis},output,scripts/{inbox-watcher/lib,inbox-watcher/logs,logs}}
+cd ~/system/second-brain && git init && git config user.email "you@example.com" && git config user.name "Your Name"
 
 # 2. Install Hermes
 python3 -m venv ~/system/.venv
@@ -96,6 +96,7 @@ Wiki indexed → queryable via CLI, Discord, or Claude Code
 ## What You Need
 
 - **Python 3.10+**
+- **python3-venv** — on Ubuntu/Debian: `sudo apt install python3-venv`
 - **Git**
 - **An LLM API key** (Anthropic, OpenAI, OpenRouter, or Ollama)
 - **Obsidian** (optional, for visual editing)

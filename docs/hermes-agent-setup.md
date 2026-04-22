@@ -57,6 +57,7 @@ Hermes is an always-on AI agent that serves as the **Executor** of your Second B
 ## Prerequisites
 
 - **Python 3.10+**
+- **python3-venv** — on Ubuntu/Debian: `sudo apt install python3-venv`
 - **Git**
 - **LLM API key** from a supported provider
 - **Discord Bot** (optional, for Discord access)
@@ -103,6 +104,13 @@ Hermes needs an LLM provider. Pick one:
 mkdir -p ~/.hermes
 ln -sf ~/.hermes ~/system/hermes
 
+# Create .env with your API key
+cat > ~/.hermes/.env << 'EOF'
+LLM_API_KEY=sk-your-actual-key-here
+LLM_BASE_URL=https://api.anthropic.com
+EOF
+chmod 600 ~/.hermes/.env
+
 # Create config
 cat > ~/.hermes/config.yaml << 'EOF'
 model:
@@ -139,9 +147,11 @@ EOF
 
 Hermes reads `.hermes.md` from the `terminal.cwd` directory. This file tells Hermes its role and rules.
 
+> ⚠️ The `.hermes.md` below contains a nested code block (the frontmatter example). Bash heredoc cannot handle this — use the Python command instead:
+
 ```bash
-cat > ~/system/second-brain/.hermes.md << 'EOF'
-# Second Brain — Hermes Context
+python3 << 'PYEOF'
+content = """# Second Brain — Hermes Context
 
 ## Purpose
 You are the Executor of this knowledge base. Your job:
@@ -187,10 +197,12 @@ created: YYYY-MM-DD
 updated: YYYY-MM-DD
 tags: [tag1, tag2]
 ```
-EOF
+"""
+with open("$HOME/system/second-brain/.hermes.md", "w") as f:
+    f.write(content)
+print("Created .hermes.md")
+PYEOF
 ```
-
-> ⚠️ The `.hermes.md` above contains nested code blocks (the frontmatter example). Save it using a text editor or Python if heredoc causes issues.
 
 ---
 
@@ -373,40 +385,7 @@ discord:
 
 ### Ingest Script
 
-```bash
-cat > ~/system/second-brain/scripts/hermes-ingest.sh << 'SCRIPT'
-#!/bin/bash
-HERMES="$HOME/system/.venv/bin/hermes"
-PROJECT_ROOT="$HOME/system/second-brain"
-LOG_DIR="$PROJECT_ROOT/scripts/logs"
-mkdir -p "$LOG_DIR"
-
-log() {
-    echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*" | tee -a "$LOG_DIR/ingest.log"
-}
-
-ingest_file() {
-    local file="$1"
-    log "Ingesting: $(basename "$file")"
-    $HERMES chat -q "Ingest the file at $file into wiki/ following the .hermes.md instructions."
-}
-
-case "${1:-}" in
-    --all)
-        find "$PROJECT_ROOT/raw" -name "*.md" -type f | while read -r file; do
-            ingest_file "$file"
-        done
-        ;;
-    --file|-f)
-        ingest_file "$2"
-        ;;
-    *)
-        echo "Usage: $0 --all | --file <path>"
-        ;;
-esac
-SCRIPT
-chmod +x ~/system/second-brain/scripts/hermes-ingest.sh
-```
+> The ingest script is defined in [Second Brain Setup → Ingest Pipeline](./second-brain-setup.md#ingest-pipeline). If you haven't set it up yet, follow that guide first.
 
 ### Set Up Cron
 
