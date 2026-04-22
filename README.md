@@ -31,10 +31,7 @@ hermes-second-brain/
 ├── scripts/                           # → ~/system/scripts/
 │   ├── wiki-graph.py                  # wiki → 지식 그래프 생성
 │   └── wiki-lint.py                   # 위키 정합성 검사
-├── hermes/                            # → ~/.hermes/ (Hermes 설정)
-│   ├── config.yaml                    # Hermes 설정
-│   ├── SOUL.md                        # 시스템 프롬프트
-│   ├── hermes-gateway.service         # systemd 유닛 파일
+├── hermes/                            # → ~/.hermes/skills/
 │   └── skills/                        # Hermes 스킬
 │       ├── daily-ingest/SKILL.md
 │       ├── archive/SKILL.md
@@ -92,8 +89,6 @@ Obsidian에서 "Open folder as vault" → `~/system/second-brain/` 선택.
 ### 3. Graphify (지식 그래프)
 
 ```bash
-cp ~/system/scripts/wiki-graph.py ~/system/scripts/wiki-graph.py
-# 이미 올바른 위치에 있음. 바로 실행:
 python3 ~/system/scripts/wiki-graph.py
 # → graphify-out/graph.json, graph.html, stats.json 생성
 ```
@@ -124,30 +119,22 @@ pip install playwright
 npx playwright install chromium
 ```
 
-### 6. Hermes 설정 배치
+### 6. Hermes 설정
 
-```bash
-# config.yaml 복사
-cp ~/system/hermes/config.yaml ~/.hermes/config.yaml
-
-# API 키 설정 (config.yaml에서 default 모델 변경 필요)
-# 환경변수로 토큰 설정
-export DISCORD_BOT_TOKEN="..."
-export OPENAI_API_KEY="..."
-```
-
-`hermes/config.yaml` 에서 반드시 수정할 항목:
+`~/.hermes/config.yaml`에서 반드시 수정할 항목:
 - `model.default` → 사용할 모델
 - `terminal.cwd` → `~/system/second-brain`
+
+```bash
+# API 키 환경변수로 토큰 설정
+export DISCORD_BOT_TOKEN="***"
+export OPENAI_API_KEY="***"
+```
 
 ### 7. systemd 서비스 (상시 가동)
 
 ```bash
-# hermes-gateway.service의 YOURUSER를 실제 유저명으로 변경
-sed -i 's/YOURUSER/'"$USER"'/g' ~/system/hermes/hermes-gateway.service
-
-# 서비스 설치
-cp ~/system/hermes/hermes-gateway.service ~/.config/systemd/user/
+# ~/.config/systemd/user/hermes-gateway.service 생성 후:
 systemctl --user daemon-reload
 systemctl --user enable hermes-gateway
 systemctl --user start hermes-gateway

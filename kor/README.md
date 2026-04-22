@@ -31,10 +31,7 @@ hermes-second-brain/
 ├── scripts/                           # → ~/system/scripts/
 │   ├── wiki-graph.py                  # wiki → 지식 그래프 생성
 │   └── wiki-lint.py                   # 위키 정합성 검사
-├── hermes/                            # → ~/.hermes/ (Hermes 설정)
-│   ├── config.yaml                    # Hermes 설정
-│   ├── SOUL.md                        # 시스템 프롬프트
-│   ├── hermes-gateway.service         # systemd 유닛 파일
+├── hermes/                            # → ~/.hermes/skills/
 │   └── skills/                        # Hermes 스킬
 │       ├── daily-ingest/SKILL.md
 │       ├── archive/SKILL.md
@@ -109,23 +106,20 @@ pip install playwright
 npx playwright install chromium
 ```
 
-### 6. Hermes 설정 배치
+### 6. Hermes 설정
 
-```bash
-cp ~/system/hermes/config.yaml ~/.hermes/config.yaml
-# API 키 환경변수 설정
-export DISCORD_BOT_TOKEN="..."
-```
-
-`hermes/config.yaml` 에서 수정:
+`~/.hermes/config.yaml`에서 수정:
 - `model.default` → 사용할 모델
 - `terminal.cwd` → `~/system/second-brain`
+
+```bash
+export DISCORD_BOT_TOKEN="***"
+```
 
 ### 7. systemd 서비스
 
 ```bash
-sed -i 's/YOURUSER/'"$USER"'/g' ~/system/hermes/hermes-gateway.service
-cp ~/system/hermes/hermes-gateway.service ~/.config/systemd/user/
+# ~/.config/systemd/user/hermes-gateway.service 생성 후:
 systemctl --user daemon-reload
 systemctl --user enable hermes-gateway
 systemctl --user start hermes-gateway
