@@ -13,7 +13,7 @@ hermes-second-brain/
 ├── README.md                          # 이 파일
 ├── second-brain/                      # → ~/system/second-brain/ (Obsidian vault)
 │   ├── CLAUDE.md                      # Claude Code 가이드
-│   ├── hermes-project-context.md      # → .hermes.md 로 이름 변경 후 사용
+│   ├── .hermes.md                     # Hermes 프로젝트 컨텍스트
 │   ├── raw/                           # 원본 자료 (수정 금지)
 │   │   ├── inbox/                     # 미처리 수집품
 │   │   ├── articles/                  # 웹 아티클
@@ -86,11 +86,6 @@ git clone https://github.com/Burgunthy/hermes-second-brain.git ~/system
 ```
 
 ### 2. Obsidian Vault 설정
-
-```bash
-# .hermes.md 이름 변경 (숨김파일)
-mv ~/system/second-brain/hermes-project-context.md ~/system/second-brain/.hermes.md
-```
 
 Obsidian에서 "Open folder as vault" → `~/system/second-brain/` 선택.
 
