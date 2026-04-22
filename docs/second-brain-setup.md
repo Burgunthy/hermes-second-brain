@@ -1,4 +1,4 @@
-# Master Note Setup Guide
+# Second Brain Setup Guide
 
 > **Full guide for the Second Brain knowledge management system**
 

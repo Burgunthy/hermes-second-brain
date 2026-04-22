@@ -225,5 +225,5 @@ hermes chat -q "Hello! List what's in raw/inbox/"
 
 ## Next Steps
 
-- 📖 [**Master Note Setup**](./master-note-setup.md) — Full system guide with Inbox Watcher, Obsidian templates, automation scripts
+- 📖 [**Second Brain Setup**](./second-brain-setup.md) — Full system guide with Inbox Watcher, Obsidian templates, automation scripts
 - 🤖 [**Hermes Agent Setup**](./hermes-agent-setup.md) — Skills, Discord integration, cron automation

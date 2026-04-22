@@ -88,7 +88,7 @@ Wiki indexed → queryable via CLI, Discord, or Claude Code
 | Doc | Description |
 |-----|-------------|
 | [Quick Start](docs/QUICKSTART.md) | Get running in 10 minutes |
-| [Master Note Setup](docs/master-note-setup.md) | Knowledge base structure, Obsidian, templates |
+| [Second Brain Setup](docs/second-brain-setup.md) | Knowledge base structure, Obsidian, templates |
 | [Hermes Agent Setup](docs/hermes-agent-setup.md) | Skills, Discord, cron, operations |
 
 ---
