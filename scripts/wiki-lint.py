@@ -24,7 +24,6 @@ def extract_frontmatter(content):
 
 
 def extract_wiki_links(content):
-    # Skip code blocks and inline code
     cleaned = re.sub(r'\`\`\`.*?\`\`\`', '', content, flags=re.DOTALL)
     cleaned = re.sub(r'\`[^\`]+\`', '', cleaned)
     return set(re.findall(r'\[\[([^\]|]+)(?:\|[^\]]+)?\]\]', cleaned))
@@ -53,7 +52,6 @@ def lint_wiki(base_path):
         fm = extract_frontmatter(content)
         rel_path = str(md_file.relative_to(wiki_path))
 
-        # Check frontmatter
         if fm is None:
             issues['error'].append(f"{rel_path}: missing frontmatter")
         else:
@@ -64,13 +62,11 @@ def lint_wiki(base_path):
             elif fm['type'] not in ['concept', 'entity', 'source_summary', 'synthesis', 'log', 'index']:
                 issues['warning'].append(f"{rel_path}: invalid type '{fm['type']}'")
 
-        # Check broken wikilinks
         links = extract_wiki_links(content)
         broken = links - all_ids
         for link in broken:
             issues['info'].append(f"{rel_path}: broken link [[{link}]]")
 
-    # Check stale inbox files (older than 7 days)
     if inbox_path.exists():
         threshold = datetime.now() - timedelta(days=7)
         for f in inbox_path.glob('*.md'):

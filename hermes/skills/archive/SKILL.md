@@ -31,11 +31,8 @@ message_id: {{message_id}}
 
 ## Research Intent Detection
 
-Check for research intent indicators:
-- Keywords: "찾아", "검색", "조사", "깃허브", "github", "논문", "research", "search"
-- Pattern: "/archive: [topic] [source]에서 찾아서 기록해"
-
-When detected → Invoke `research` skill for parallel searches (GitHub, web, arXiv).
+Keywords: "찾아", "검색", "조사", "깃허브", "github", "논문", "research", "search"
+When detected → Invoke `research` skill for parallel searches.
 Simple archive → Save to `raw/inbox/` as-is.
 
 ## Configuration

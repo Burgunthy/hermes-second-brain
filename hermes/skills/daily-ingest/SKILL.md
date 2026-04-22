@@ -8,16 +8,6 @@ tags: discord, ingest, wiki, automation
 
 Discord `/daily-ingest` command to force execute the daily ingest flow.
 
-## How It Works
-
-1. Discord receives `/daily-ingest` command
-2. Hermes scans `raw/inbox/` for unprocessed files
-3. Each file is read, concepts/entities extracted
-4. Files are ingested into `wiki/concepts/` or `wiki/entities/`
-5. `wiki/index.md` and `wiki/log.md` are updated
-6. Knowledge graph is regenerated via `wiki-graph.py`
-7. Results reported to Discord
-
 ## Manual Execution (from Hermes session)
 
 ### Step 1: Scan inbox
@@ -41,7 +31,6 @@ python3 ~/system/scripts/wiki-lint.py
 ```
 
 ## Pitfalls
-- **Sub-agent type error**: Use `source_summary` not `source` (lint catches `invalid_type`)
-- **Korean title + English filename**: Normal. Lint reports as info level
-- **index.md/log.md race condition**: Parallel sub-agents may conflict. Patch sequentially
-- **Code block wikilinks**: `[[example]]` inside backticks causes false broken_link detection. Avoid writing wikilinks in code blocks
+- Use `source_summary` not `source` (lint catches `invalid_type`)
+- Korean title + English filename is normal
+- Avoid writing `[[wikilinks]]` inside code blocks (false broken_link detection)

@@ -25,7 +25,7 @@ hermes chat -q "question"
 hermes chat
 
 # With skill
-hermes chat -s wiki-query -q "question"
+hermes chat -s daily-ingest -q "question"
 ```
 
 ### Delegation Pattern
@@ -34,25 +34,6 @@ hermes chat -s wiki-query -q "question"
 1. Define task → hermes chat -q "task instruction"
 2. Hermes executes → check result
 3. Review & feedback → hermes chat -q "apply feedback and fix"
-```
-
----
-
-## LLM Wiki Tasks (Delegate to Hermes)
-
-### Content Verification
-```bash
-hermes chat -q "Read all files in wiki/ and check frontmatter and links"
-```
-
-### Ingest
-```bash
-hermes chat -q "Ingest files from raw/inbox/ into wiki/"
-```
-
-### Graph Update
-```bash
-hermes chat -q "Run wiki-graph.py and wiki-lint.py, report results"
 ```
 
 ---
