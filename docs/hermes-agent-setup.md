@@ -310,24 +310,32 @@ hermes chat
 ### Daemon Mode (always-on)
 
 ```bash
-# Start as background daemon
-nohup ~/system/.venv/bin/hermes serve &> ~/system/hermes/daemon.log &
+# Run gateway in foreground (recommended)
+~/system/.venv/bin/hermes gateway run
 
-# Check if running
-ps aux | grep hermes
+# Or start as systemd service
+~/system/.venv/bin/hermes gateway install
+~/system/.venv/bin/hermes gateway start
+
+# Check status
+~/system/.venv/bin/hermes gateway status
 ```
 
 ### Systemd (Linux, for auto-start)
 
+Hermes has a built-in systemd installer — use `hermes gateway install` (above).
+
+Or create manually:
+
 ```bash
-cat > ~/.config/systemd/user/hermes.service << 'EOF'
+cat > ~/.config/systemd/user/hermes-gateway.service << 'EOF'
 [Unit]
-Description=Hermes Agent
+Description=Hermes Gateway
 After=network.target
 
 [Service]
 Type=simple
-ExecStart=/home/YOURUSER/system/.venv/bin/hermes serve
+ExecStart=/home/YOURUSER/system/.venv/bin/hermes gateway run
 Restart=on-failure
 RestartSec=10
 
@@ -335,8 +343,9 @@ RestartSec=10
 WantedBy=default.target
 EOF
 
-systemctl --user enable hermes
-systemctl --user start hermes
+systemctl --user daemon-reload
+systemctl --user enable hermes-gateway
+systemctl --user start hermes-gateway
 ```
 
 > ⚠️ Replace `YOURUSER` with your actual username.
@@ -427,7 +436,7 @@ hermes chat -s wiki-lint -q "Full wiki consistency check"
 | API keys | `~/.hermes/.env` |
 | Skills | `~/.hermes/skills/` or `~/system/hermes/skills/` |
 | Knowledge base | `~/system/second-brain/` |
-| Daemon log | `~/system/hermes/daemon.log` |
+| Gateway log | `~/system/hermes/logs/` |
 
 ---
 
@@ -449,7 +458,7 @@ cat ~/.hermes/.env
 1. Check the bot is online in your Discord server
 2. Verify `DISCORD_BOT_TOKEN` in `~/.hermes/.env`
 3. Verify Message Content Intent is enabled in Developer Portal
-4. Check logs: `tail -f ~/system/hermes/daemon.log`
+4. Check logs: `~/system/.venv/bin/hermes logs`
 
 ---
 
