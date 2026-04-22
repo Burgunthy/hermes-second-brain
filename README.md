@@ -91,6 +91,8 @@ Wiki indexed → queryable via CLI, Discord, or Claude Code
 | [Second Brain Setup](docs/second-brain-setup.md) | Knowledge base structure, Obsidian, templates |
 | [Hermes Agent Setup](docs/hermes-agent-setup.md) | Skills, Discord, cron, operations |
 
+**한국어**: [Quick Start](kor/QUICKSTART.md) / [Second Brain 설정](kor/second-brain-setup.md) / [Hermes Agent 설정](kor/hermes-agent-setup.md)
+
 ---
 
 ## What You Need
