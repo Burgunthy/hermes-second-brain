@@ -1,4 +1,4 @@
-# Hermes Second Brain
+# 🧠 Hermes Second Brain
 
 > A compound knowledge system — Obsidian vault + knowledge graph + Hermes Agent automation.
 
