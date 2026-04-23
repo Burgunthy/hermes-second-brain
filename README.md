@@ -1,177 +1,143 @@
+<div align="center">
+
 # 🧠 Hermes Second Brain
 
-> A compound knowledge system — Obsidian vault + knowledge graph + Hermes Agent automation.
+**A compound knowledge system that grows itself.**
 
-Clone this repo to `~/system/` and any LLM can reconstruct the same setup from the README alone.
+*Obsidian vault · Knowledge graph · Hermes Agent automation*
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Python 3.10+](https://img.shields.io/badge/Python-3.10+-green.svg)](scripts/)
+[![Node.js 20+](https://img.shields.io/badge/Node.js-20+-339933.svg)]()
+
+</div>
 
 ---
 
-## Structure
+## ✨ What is this?
+
+A self-growing second brain built on four components:
+
+| | Component | Role |
+|---|-----------|------|
+| 📝 | **Obsidian** | Markdown knowledge base (vault) |
+| 🔗 | **Graphify** | Wikilinks → interactive knowledge graph |
+| 🧑‍💻 | **Claude Code** | Director — orchestrates complex tasks |
+| 🤖 | **Hermes Agent** | Executor — collects, ingests, automates via cron |
+
+> **Key idea**: Claude Code *delegates*, Hermes *executes*. The system runs 24/7 on a server — accessible from Discord or CLI.
+
+---
+
+## 📂 Structure
+
+Clone to `~/system/` and the directory *is* the system. No extra config needed.
 
 ```
 hermes-second-brain/
-├── README.md                          # This file
-├── second-brain/                      # → ~/system/second-brain/ (Obsidian vault)
-│   ├── CLAUDE.md                      # Claude Code guide
-│   ├── .hermes.md                     # Hermes project context
-│   ├── raw/                           # Raw materials (never modify)
-│   │   ├── inbox/                     # Unprocessed items
-│   │   ├── articles/                  # Web articles
-│   │   ├── papers/                    # Research papers
-│   │   └── notes/                     # Manual notes
-│   ├── wiki/                          # Curated knowledge base
-│   │   ├── index.md                   # Master index
-│   │   ├── log.md                     # Change log
-│   │   ├── concepts/                  # Concept documents
-│   │   ├── entities/                  # Entity documents (tools, people, products)
-│   │   ├── sources/                   # Source summaries
-│   │   └── synthesis/                 # Synthesis / analysis
-│   ├── graphify-out/                  # Knowledge graph output
-│   └── output/                        # Generated reports
+├── second-brain/                 # Obsidian vault
+│   ├── CLAUDE.md                 # Claude Code instructions
+│   ├── .hermes.md                # Hermes project context
+│   ├── raw/                      # Raw materials (never modify)
+│   │   ├── inbox/                #   Unprocessed items
+│   │   ├── articles/             #   Web articles
+│   │   ├── papers/               #   Research papers
+│   │   └── notes/                #   Manual notes
+│   ├── wiki/                     # Curated knowledge base
+│   │   ├── concepts/             #   Concept documents
+│   │   ├── entities/             #   Entity documents
+│   │   ├── sources/              #   Source summaries
+│   │   └── synthesis/            # Integrated analysis
+│   └── graphify-out/             # Knowledge graph output
 ├── scripts/
-│   ├── wiki-graph.py                  # Wiki → knowledge graph generator
-│   └── wiki-lint.py                   # Wiki consistency checker
-├── hermes/skills/                     # Hermes Agent skills
-│   ├── daily-ingest/
-│   ├── archive/
-│   └── research/
-└── kor/README.md                      # Korean translation
+│   ├── wiki-graph.py             # Wiki → graph generator
+│   └── wiki-lint.py              # Consistency checker
+├── hermes/skills/                # Hermes Agent skills
+└── kor/README.md                 # 한국어 버전
 ```
 
 ---
 
-## Architecture
-
-Four components forming a compound knowledge system:
-
-| Component | Role | Location |
-|-----------|------|----------|
-| **Obsidian** | Knowledge base (vault) | `~/system/second-brain/` |
-| **Graphify** | Wikilinks → knowledge graph | `~/system/scripts/wiki-graph.py` |
-| **Claude Code** | Director — complex ingest, system design | Local terminal |
-| **Hermes Agent** | Executor — collection, ingest, cron automation | Server (Discord/CLI) |
-
-**Key principle**: Claude Code delegates, Hermes executes. Claude Code never touches files directly.
-
-```
-Claude Code (Director)          Hermes Agent (Executor)
-      │                                │
-      │── "ingest this to wiki" ──────→ wiki/ CRUD, search, cron
-      │←── report ─────────────────────│
-      └── feedback ──→ revise ────────→ apply
-```
-
----
-
-## Prerequisites
-
-- **Ubuntu 22.04+** (Linux)
-- **Python 3.10+**
-- **Node.js 20+** (for Playwright MCP)
-- **Claude Code** — `npm install -g @anthropic-ai/claude-code`
-- **Git**, **pip + venv** — `sudo apt install git python3-pip python3-venv`
-
----
-
-## Setup
-
-### 1. Clone
+## 🚀 Quick Start
 
 ```bash
+# 1. Clone
 git clone https://github.com/Burgunthy/hermes-second-brain.git ~/system
-```
 
-### 2. Obsidian Vault
-
-Open Obsidian → "Open folder as vault" → select `~/system/second-brain/`.
-
-### 3. Knowledge Graph
-
-```bash
+# 2. Knowledge graph
 python3 ~/system/scripts/wiki-graph.py
-# → generates graphify-out/graph.json, graph.html, stats.json
+
+# 3. Hermes Agent
+python3 -m venv ~/system/.venv && source ~/system/.venv/bin/activate
+pip install git+https://github.com/NousResearch/hermes-agent.git playwright
+npx playwright install chromium
+
+# 4. Copy skills
+cp -r ~/system/hermes/skills/* ~/.hermes/skills/
 ```
 
-### 4. Claude Code
+Open `~/system/second-brain/` as an Obsidian vault and you're set.
 
-`second-brain/CLAUDE.md` instructs Claude Code to delegate to Hermes instead of editing files directly:
+<details>
+<summary>🔧 Full setup (systemd service, Claude Code, env vars)</summary>
+
+### Claude Code
+
+`second-brain/CLAUDE.md` tells Claude Code to delegate to Hermes:
 
 ```bash
 cd ~/system/second-brain
 claude
 ```
 
-### 5. Hermes Agent
-
-```bash
-python3 -m venv ~/system/.venv
-source ~/system/.venv/bin/activate
-pip install git+https://github.com/NousResearch/hermes-agent.git
-pip install playwright
-npx playwright install chromium
-```
-
-### 6. Hermes Config
+### Hermes Config
 
 Edit `~/.hermes/config.yaml`:
 - `model.default` → your preferred model
 - `terminal.cwd` → `~/system/second-brain`
-
-Set API keys:
 
 ```bash
 export DISCORD_BOT_TOKEN="***"
 export OPENAI_API_KEY="***"
 ```
 
-### 7. systemd Service (always-on)
+### systemd (always-on)
 
 ```bash
 # Create ~/.config/systemd/user/hermes-gateway.service, then:
 systemctl --user daemon-reload
-systemctl --user enable hermes-gateway
-systemctl --user start hermes-gateway
+systemctl --user enable --now hermes-gateway
 ```
 
-### 8. Skills
-
-```bash
-cp -r ~/system/hermes/skills/* ~/.hermes/skills/
-```
+</details>
 
 ---
 
-## Automation
-
-### Daily Ingest (4:00 AM)
-
-```bash
-hermes chat -q "create cronjob: daily-ingest, 0 4 * * *, ingest raw/inbox/ to wiki/ and refresh graph, deliver: discord"
-```
-
-### Weekly Lint / Summary
-
-```bash
-hermes chat -q "create cronjob: weekly-lint, 0 5 * * 0, run wiki-lint.py and report"
-hermes chat -q "create cronjob: weekly-summary, 0 9 * * 1, summarize last week's wiki changes"
-```
-
----
-
-## Ingest Pipeline
+## 🔄 How It Works
 
 ```
-raw/ file → extract concepts/entities → wiki/concepts/ or wiki/entities/
-         → create wiki/sources/ summary
-         → update wiki/index.md
-         → log to wiki/log.md
+  Collect                Ingest                Query
+┌──────────┐       ┌──────────────┐       ┌──────────┐
+│ Articles  │──┐    │  Extract     │       │          │
+│ Papers    │  ├────▶  concepts   ├──────▶│  Wiki    │
+│ Notes     │──┘    │  entities   │       │  Search  │
+└──────────┘       └──────┬───────┘       └──────────┘
+                          │
+                   ┌──────▼───────┐
+                   │ Knowledge   │
+                   │ Graph       │
+                   └──────────────┘
 ```
+
+**Ingest pipeline**: `raw/` → extract concepts & entities → `wiki/` → update index & log → refresh graph.
 
 ### Document Metadata
 
+Every wiki document uses this frontmatter:
+
 ```yaml
 ---
-title: Document title
+title: Document Title
 type: concept | entity | source_summary | synthesis
 related: "[[RelatedDoc1]] [[RelatedDoc2]]"
 sources: raw/file-path.md
@@ -180,18 +146,40 @@ updated: 2026-04-22
 ---
 ```
 
-### Rules
+---
 
-- **raw/**: Never modify (preserve originals)
-- **wiki/**: Log all changes in `wiki/log.md`
-- **wiki/index.md**: Keep up to date
+## ⏰ Automation
+
+Cron jobs run automatically via Hermes Agent:
+
+| Schedule | Job | Description |
+|----------|-----|-------------|
+| Daily 4 AM | `daily-ingest` | Scan `raw/inbox/` → ingest to wiki → refresh graph |
+| Sun 5 AM | `weekly-lint` | Run `wiki-lint.py` consistency checks |
+| Mon 9 AM | `weekly-summary` | Summarize last week's wiki changes |
+
+```bash
+hermes chat -q "create cronjob: daily-ingest, 0 4 * * *, ingest raw/inbox/ to wiki/ and refresh graph, deliver: discord"
+```
 
 ---
 
-## License
+## 📜 Rules
 
-MIT
+- **`raw/`** — never modify (preserve originals)
+- **`wiki/`** — log all changes in `wiki/log.md`
+- **`wiki/index.md`** — always keep up to date
 
 ---
 
-[한국어 README](kor/README.md)
+## 📄 License
+
+[MIT](LICENSE)
+
+---
+
+<div align="center">
+
+[한국어 README](kor/README.md) · Built with [Hermes Agent](https://github.com/NousResearch/hermes-agent)
+
+</div>
